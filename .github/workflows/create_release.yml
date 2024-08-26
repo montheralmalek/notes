@@ -1,11 +1,11 @@
-name: Android Release
+name: CI
 on:
-  push:
+  pull_request:
     branches:
-      - develop
+      - master
 jobs:
-  flutter_test:
-    name: Run flutter test 
+  build:
+    name: Release  new apk
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -16,7 +16,11 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: "stable"
-      - run: flutter pub get
-      # - run: flutter analyze
-      - run: flutter test
+      - run: flutter build apk --debug --split-per-abi
+
+      - name: Push to Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/app/outputs/apk/debug/*"
+          tag: v0.0.1
 
