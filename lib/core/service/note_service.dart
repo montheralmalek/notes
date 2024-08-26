@@ -8,6 +8,9 @@ import 'package:notes/main.dart';
 abstract class NoteService extends GetxService {
   Future<NoteServiceImp> initData();
   List<NoteModel> fetchAll();
+  Future<int> add(NoteModel note);
+  void update(NoteModel note);
+  void delete(int noteKey);
 }
 
 class NoteServiceImp extends NoteService {
@@ -25,6 +28,22 @@ class NoteServiceImp extends NoteService {
   @override
   List<NoteModel> fetchAll() {
     return _dataBox.values.toList();
+  }
+
+  @override
+  Future<int> add(NoteModel note) async {
+    var result = await _dataBox.add(note);
+    return result;
+  }
+
+  @override
+  void delete(int noteKey) {
+    // TODO: implement delete
+  }
+
+  @override
+  void update(NoteModel note) {
+    // TODO: implement update
   }
 }
 // void _deleteRelated(int classroomKey) {

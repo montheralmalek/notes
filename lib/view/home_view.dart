@@ -10,28 +10,30 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(NoteControllerImp());
-    return Scaffold(
-      body: SafeArea(
-        minimum: const EdgeInsets.all(15),
-        child: GridView(
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 300,
-            mainAxisExtent: 200,
+    Get.put(NoteControllerImp());
+    return GetBuilder<NoteControllerImp>(builder: (controller) {
+      return Scaffold(
+        body: SafeArea(
+          minimum: const EdgeInsets.all(15),
+          child: GridView(
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 300,
+              mainAxisExtent: 200,
+            ),
+            children: [
+              ...controller.getAll().map(
+                    (note) => NoteWidget(
+                      note: note,
+                    ),
+                  )
+            ],
           ),
-          children: [
-            ...controller.getAll().map(
-                  (note) => NoteWidget(
-                    note: note,
-                  ),
-                )
-          ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: controller.goToAddNoteView,
-        child: const Icon(Icons.add),
-      ),
-    );
+        floatingActionButton: FloatingActionButton(
+          onPressed: controller.goToAddNoteView,
+          child: const Icon(Icons.add),
+        ),
+      );
+    });
   }
 }
